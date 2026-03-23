@@ -59,7 +59,7 @@ public class Trader implements Comparable<Trader>
     // Sets a new TraderView for this trader and saves a reference to it in myView.
     public void setView( TraderWindow view )
     {
-        myWindow = view;
+        myView = view;
     }
 
     //  Places a given order with the brokerage by calling brokerage's placeOrder.
@@ -78,9 +78,9 @@ public class Trader implements Comparable<Trader>
     public void receiveMessage( String msg )
     {
         mailbox.add( msg );
-        if ( myWindow != null )
+        if ( myView != null )
             {
-                myWindow.showMessage( msg );
+                myView.showMessage( msg );
             }
     }
 

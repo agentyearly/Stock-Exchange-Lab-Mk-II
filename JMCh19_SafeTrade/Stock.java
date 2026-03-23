@@ -1,7 +1,6 @@
 import java.util.*;
 import java.lang.reflect.*;
 import java.text.DecimalFormat;
-
 /**
  * Represents a stock in the SafeTrade project
  */
@@ -168,4 +167,4 @@ public class Stock {
 
         return str + "]";
     }
-}
+   }
