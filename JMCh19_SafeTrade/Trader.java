@@ -11,7 +11,78 @@ public class Trader implements Comparable<Trader>
     private TraderView myView;
     private Queue<String> mailbox;
 
-    // TODO complete class
+    public Trader( Brokerage brokerage, String screenName, String password )
+    {
+        this.screenName = screenName;
+        this.password = password;
+        this.brokerage = brokerage;
+        mailbox = new LinkedList<String>();
+    }
+
+    // Compares this trader to another by comparing their screen names case blind.
+    public int compareTo( Trader other )
+    {
+        return this.screenName.compareToIgnoreCase( other.screenName );
+    }
+
+    // Indicates whether some other trader is "equal to" this one, based on comparing their screen names case blind.
+    public boolean equals( Object other )
+    {
+        return (this.screenName.equalsIgnoreCase( ((Trader) other).screenName ));
+    }
+
+
+    //  Returns the screen name for this trader.
+    public String getName()
+    {
+        return screenName;
+    }
+
+    // Returns the password for this trader.
+    public String getPassword()
+    {
+        return password;
+    }
+
+    // Requests a quote for a given stock symbol from the brokerage by calling brokerage's getQuote.
+    public void getQuote( String symbol )
+    {
+        brokerage.getQuote( symbol, this );
+    }
+
+    // Returns true if this trader has any messages in its mailbox.
+    public boolean hasMessages()
+    {
+        return !mailbox.isEmpty();
+    }
+
+    // Sets a new TraderView for this trader and saves a reference to it in myView.
+    public void setView( TraderWindow view )
+    {
+        myWindow = view;
+    }
+
+    //  Places a given order with the brokerage by calling brokerage's placeOrder.
+    public void placeOrder( TradeOrder order )
+    {
+        brokerage.placeOrder( order );
+    }
+
+    // Logs out this trader
+    public void quit()
+    {
+        brokerage.logout( this );
+    }
+
+    // Adds msg to this trader's mailbox and displays all messages.
+    public void receiveMessage( String msg )
+    {
+        mailbox.add( msg );
+        if ( myWindow != null )
+            {
+                myWindow.showMessage( msg );
+            }
+    }
 
 
     //

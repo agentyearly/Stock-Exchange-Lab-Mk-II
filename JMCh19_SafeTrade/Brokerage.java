@@ -10,7 +10,97 @@ public class Brokerage implements Login
     private Set<Trader> loggedTraders;
     private StockExchange exchange;
 
-    // TODO complete class
+    // Constructor
+    public Brokerage( StockExchange exchange )
+    {
+        this.exchange = exchange;
+        traders = new TreeMap<String, Trader>();
+        loggedTraders = new TreeSet<Trader>();
+    }
+    /**
+     * Tries to register a new trader with a given screen name and password. 
+     * If successful, creates a Trader object for this trader and adds this trader to the map of all traders (using the screen name as the key).
+     * @param name - the screen name of the trader.
+     * @param password - the password for the trader.
+     * @return 0 if successful, or an error code (a negative integer) if failed:
+                -1 -- invalid screen name (must be 4-10 chars)
+                -2 -- invalid password (must be 2-10 chars)
+                -3 -- the screen name is already taken.
+     */
+    public int addUser(String name, String password){
+        if ( name == null || name.length() < 4 || name.length() > 10 )
+            return -1;
+
+        if ( password == null || password.length() < 2 || password.length() > 10 )
+            return -2;
+
+        if ( traders.containsKey( name ) )
+            return -3;
+
+        Trader trader = new Trader( this, name, password );
+        traders.put( name, trader );
+        return 0;
+    }
+
+    /**
+     * Requests a quote for a given stock from the stock exachange 
+     * and passes it along to the trader by calling trader's receiveMessage method.
+     * @param symbol - the stock symbol for which a quote is requested.
+     * @param trader - the trader requesting the quote.
+     * @return void
+     */
+    public void getQuote(String symbol, Trader trader){
+        String quote = exchange.getQuote(symbol);
+        trader.receiveMessage(quote);
+    }
+    
+    /**
+     * Tries to login a trader with a given screen name and password. 
+     * If no messages are waiting for the trader, sends a "Welcome to SafeTrade!" message to the trader. 
+     * Adds the trader to the set of all logged-in traders.
+     * @param name - the screen name of the trader.
+     * @param password - the password for the trader.
+     * @return 0 if successful, or an error code (a negative integer) if failed:
+                -1 -- screen name not found.
+                -2 -- invalid passphrase.
+                -3 -- user already logged in.
+     */
+    public int login(String name, String password){
+        if ( !traders.containsKey( name ) )
+            return -1;                               // no name~
+
+        Trader trader = traders.get( name );
+
+        if ( !trader.getPassword().equals( password ) )
+            return -2;                             // wrong password~
+
+        if ( loggedTraders.contains( trader ) )
+            return -3;                           // already logged in/recorded in loggedTraders
+        if ( !trader.hasMessages() )
+            trader.receiveMessage( "Welcome to SafeTrade!" );
+        
+        trader.setView( new TraderWindow( trader ) );
+        loggedTraders.add( trader );
+        return 0;
+    }
+
+    /**
+     * Removes a specified trader from the set of logged-in traders. The trader may be assumed to logged in already.
+     * @param trader - the trader to be logged out.
+     * @return void
+     */
+    public void logout(Trader trader){
+        loggedTraders.remove(trader);
+    }
+
+    /**
+     * Places an order at the stock exchange.
+     * @param order - the order to be placed at the stock exchangge.
+     * @return void
+     */
+    public void placeOrder(TradeOrder order){
+        exchange.placeOrder( order );
+    }
 
     
     //
