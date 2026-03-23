@@ -17,7 +17,6 @@ public class TradeOrder
     // TODO complete class
 =======
     
->>>>>>> cb879c2536c161f12c9d8daa54f5cdc0b0f67082
     public TradeOrder(Trader trader, String symbol, boolean buyOrder, boolean marketOrder, int numShares, double price) {
         this.trader = trader;
         this.symbol = symbol;
