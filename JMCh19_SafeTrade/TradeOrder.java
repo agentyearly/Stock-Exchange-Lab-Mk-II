@@ -13,7 +13,7 @@ public class TradeOrder
     private int numShares;
     private double price;
 
-    
+    // TODO complete class
     public TradeOrder(Trader trader, String symbol, boolean buyOrder, boolean marketOrder, int numShares, double price) {
         this.trader = trader;
         this.symbol = symbol;
