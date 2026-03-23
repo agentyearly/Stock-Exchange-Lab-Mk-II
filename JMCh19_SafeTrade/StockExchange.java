@@ -11,8 +11,32 @@ public class StockExchange
 {
     private Map<String, Stock> listedStocks;
     
-    // TODO complete class
+    public StockExchange(){
+        listedStocks = new HashMap<>();
+    }
 
+    public java.lang.String getQuote(java.lang.String symbol){
+        if (listedStocks.containsKey(symbol)){
+            Stock s = listedStocks.get(symbol);
+            return s.getQuote(); 
+        }
+        else{
+            return symbol + " not found";
+        }
+    }
+    public void listStock(java.lang.String symbol, java.lang.String name, double price){
+        Stock newStock = new Stock(symbol, name, price);
+        listedStocks.put(symbol, newStock); 
+    }
+    public void placeOrder(TradeOrder order){
+        if (listedStocks.containsKey(order.getSymbol())){
+            Stock stock = listedStocks.get(order.getSymbol());
+            stock.placeOrder(order); 
+        }
+        else{
+            (order.getTrader()).receiveMessage(order.getSymbol() + " not found");
+        }
+    }
     
     //
     // The following are for test purposes only

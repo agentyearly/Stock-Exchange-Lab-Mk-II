@@ -1,10 +1,9 @@
-import java.util.Comparator;
-
 /**
  * A price comparator for trade orders.
  */
 public class PriceComparator implements java.util.Comparator<TradeOrder>
 {
+
     private boolean ascending_flag; 
     public PriceComparator(){
         ascending_flag = true; 
@@ -33,3 +32,4 @@ public class PriceComparator implements java.util.Comparator<TradeOrder>
     }
 
 }
+
