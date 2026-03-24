@@ -16,8 +16,7 @@ public class MyTests_Brokerage {
         testBrokerageLogout();
         testBrokerageGetQuote();
         testBrokeragePlaceOrder();
-
-
+        testBrokerageToString(); 
     }
     // ----------------------------
     // Brokerage Tests
@@ -117,5 +116,11 @@ public class MyTests_Brokerage {
         br.placeOrder(order);
 
         System.out.println("Order placement completed without crashing.");
+    }
+    public static void testBrokerageToString(){
+        System.out.println("\nRunning testBrokerageToString...");
+        Brokerage br = new Brokerage(new StockExchange());
+        br.addUser("Sally", "password1");
+        System.out.println(br.toString());
     }
 }
