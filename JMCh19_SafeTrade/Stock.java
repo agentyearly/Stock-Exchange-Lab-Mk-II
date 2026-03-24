@@ -131,12 +131,14 @@ public class Stock {
         String msg = "New Order: ";
         if (order.isBuy()) {
             buyOrders.add(order);
-            msg.concat("buy ");
+            msg = msg.concat("buy ");
         } else {
             sellOrders.add(order);
-            msg.concat("Sell ");
+            msg = msg.concat("Sell ");
         }
-        msg.concat(order.getSymbol() + " (" + order.getTrader().getName() + ")" + "\n" + order.getShares()+ " shares at $" + order);
+        msg = msg.concat(order.getSymbol() + " (" + order.getTrader().getName() + ")" + "\n" + order.getShares()+ " shares at $" + order);
+        order.getTrader().receiveMessage(msg); 
+        executeOrders(); 
     }
 
     /**
