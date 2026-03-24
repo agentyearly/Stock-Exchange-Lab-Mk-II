@@ -82,6 +82,7 @@ public class Stock {
             int shares = Math.min(buy.getShares(), sell.getShares());
             buy.subtractShares(shares);
             sell.subtractShares(shares);
+            lastPrice = price;
 
             if (buy.getShares() == 0)  {
                 buyOrders.remove();
@@ -117,7 +118,7 @@ public class Stock {
             String bid = "";
            if (!buyOrders.isEmpty()) {
                 TradeOrder buyOrder = buyOrders.peek();
-                bid = " Bid: " + buyOrder.getPrice() + " size: " + buyOrder.getPrice();
+                bid = " Bid: " + buyOrder.getPrice() + " size: " + buyOrder.getShares();
             } else {
                 bid = " Bid: none";
             }
@@ -125,18 +126,18 @@ public class Stock {
     }
 
     public void placeOrder(TradeOrder order) {
-        String msg = "New Order: ";
-        if (order.isBuy()) {
-            buyOrders.add(order);
-            msg = msg.concat("buy ");
-        } else {
-            sellOrders.add(order);
-            msg = msg.concat("Sell ");
-        }
-        msg = msg.concat(order.getSymbol() + " (" + order.getTrader().getName() + ")" + "\n" + order.getShares()+ " shares at $" + order);
-        order.getTrader().receiveMessage(msg); 
-        executeOrders(); 
+    String msg = "New Order: ";
+    if (order.isBuy()) {
+        buyOrders.add(order);
+        msg = msg.concat("buy ");
+    } else {
+        sellOrders.add(order);
+        msg = msg.concat("sell ");
     }
+    msg = msg.concat(order.getSymbol() + " (" + order.getTrader().getName() + ")" + "\n" + order.getShares() + " shares at $" + order.getPrice());
+    order.getTrader().receiveMessage(msg);
+    executeOrders();
+}
 
     /**
      * <p>
