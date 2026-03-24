@@ -62,51 +62,48 @@ public class Stock {
     }
 
     protected void executeOrders() {
-    while (!buyOrders.isEmpty() && !sellOrders.isEmpty()) {
-        TradeOrder buy = buyOrders.peek();
-        TradeOrder sell = sellOrders.peek();
+        while (!buyOrders.isEmpty() && !sellOrders.isEmpty()) {
+            TradeOrder buy = buyOrders.peek();
+            TradeOrder sell = sellOrders.peek();
 
-        double price;
+            double price;
 
-        if (buy.isLimit() && sell.isLimit()) {
-            if (buy.getPrice() < sell.getPrice()) {
-                return;
+            if (buy.isLimit() && sell.isLimit()) {
+                if (buy.getPrice() < sell.getPrice()) {
+                    return;
+                }
+                price = sell.getPrice();
+            } else if (buy.isLimit() ^ sell.isLimit()) {
+                price = buy.isLimit() ? buy.getPrice() : sell.getPrice();
+            } else { 
+                price = lastPrice;
             }
-            price = sell.getPrice();
-        } else if (buy.isLimit() ^ sell.isLimit()) {
-            price = buy.isLimit() ? buy.getPrice() : sell.getPrice();
-        } else { 
-            price = lastPrice;
-        }
 
-        int shares = Math.min(buy.getShares(), sell.getShares());
-        buy.subtractShares(shares);
-        sell.subtractShares(shares);
+            int shares = Math.min(buy.getShares(), sell.getShares());
+            buy.subtractShares(shares);
+            sell.subtractShares(shares);
 
-        if (buy.getShares() == 0)  {
-            buyOrders.remove();
-        }
-        if (sell.getShares() == 0) {
-            sellOrders.remove();
-        }
-        if (price < loPrice)  {
-            loPrice = price;
-        }
-        if (price > hiPrice) {
-            hiPrice = price;
-        }
-        volume += shares;
+            if (buy.getShares() == 0)  {
+                buyOrders.remove();
+            }
+            if (sell.getShares() == 0) {
+                sellOrders.remove();
+            }
+            if (price < loPrice)  {
+                loPrice = price;
+            }
+            if (price > hiPrice) {
+                hiPrice = price;
+            }
+            volume += shares;
 
-        Trader bt = buy.getTrader();
-        Trader st = sell.getTrader();
+            Trader bt = buy.getTrader();
+            Trader st = sell.getTrader();
 
-        bt.receiveMessage("You bought: " + shares + " " + buy.getSymbol() + " at " +
-                money.format(price) + " amt " + money.format(shares * price));
-        st.receiveMessage("You sold: " + shares + " " + sell.getSymbol() + " at " +
-                money.format(price) + " amt " + money.format(shares * price));
+            bt.receiveMessage("You bought: " + shares + " " + buy.getSymbol() + " at " + money.format(price) + " amt " + money.format(shares * price));
+            st.receiveMessage("You sold: " + shares + " " + sell.getSymbol() + " at " + money.format(price) + " amt " + money.format(shares * price));
+        }
     }
-}
-
 
     public String getQuote() {
         String first = companyName + " (" + stockSymbol + ")" + "\n" + "Price: " + lastPrice + " hi: " + hiPrice + " lo: " + money.format(loPrice) + " vol: " + volume + "\n";
