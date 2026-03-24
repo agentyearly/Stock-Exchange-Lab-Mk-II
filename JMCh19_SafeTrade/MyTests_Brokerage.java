@@ -12,8 +12,8 @@ public class MyTests_Brokerage {
         System.out.println("\n===== Brokerage Tests =====");
         // TODO - fix the login and logout
         testBrokerageAddUser();
-        //testBrokerageLogin();
-        //testBrokerageLogout();
+        testBrokerageLogin();
+        testBrokerageLogout();
         testBrokerageGetQuote();
         testBrokeragePlaceOrder();
 

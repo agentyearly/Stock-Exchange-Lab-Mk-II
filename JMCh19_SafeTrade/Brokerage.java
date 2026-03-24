@@ -78,8 +78,7 @@ public class Brokerage implements Login
             return -3;                           // already logged in/recorded in loggedTraders
         if ( !trader.hasMessages() )
             trader.receiveMessage( "Welcome to SafeTrade!" );
-        
-        trader.setView( new TraderWindow( trader ) );
+        //trader.setView( new TraderWindow( trader ) );
         loggedTraders.add( trader );
         return 0;
     }
