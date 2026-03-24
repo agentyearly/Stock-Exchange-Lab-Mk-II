@@ -70,11 +70,13 @@ public class Stock {
 
             if (buy.isLimit() && sell.isLimit()) {
                 if (buy.getPrice() < sell.getPrice()) {
-                    return;
+                    break;
                 }
                 price = sell.getPrice();
-            } else if (buy.isLimit() ^ sell.isLimit()) {
-                price = buy.isLimit() ? buy.getPrice() : sell.getPrice();
+            } else if (buy.isLimit() && sell.isMarket()) {
+                price = buy.getPrice();
+            } else if (buy.isMarket() && sell.isLimit()) {
+                price = sell.getPrice();
             } else { 
                 price = lastPrice;
             }
