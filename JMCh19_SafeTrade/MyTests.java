@@ -1,7 +1,6 @@
 public class MyTests {
 
     public static void main(String[] args) {
-
         System.out.println("=================================");
         System.out.println("        RUNNING ALL TESTS        ");
         System.out.println("=================================");

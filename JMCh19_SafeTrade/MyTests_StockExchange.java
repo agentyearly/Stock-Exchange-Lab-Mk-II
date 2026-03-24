@@ -12,6 +12,7 @@ public class MyTests_StockExchange {
         testListStock();
         testGetQuote();
         testPlaceOrder();
+        testToString(); 
     }
     public static void testListStock(){
         System.out.println("\nRunning testListStock...");
@@ -46,5 +47,11 @@ public class MyTests_StockExchange {
         se.listStock(symbol, "Giggle", price);
         System.out.println("This should print a quote: " + se.getQuote(symbol));
         System.out.println("This should print 'not found': " + se.getQuote("LLT"));
+    }
+    public static void testToString(){
+        System.out.println("\nRunning testToString...");
+        StockExchange se = new StockExchange();
+        se.listStock(symbol, "Giggle", price);
+        System.out.println(se.toString()); 
     }
 }
