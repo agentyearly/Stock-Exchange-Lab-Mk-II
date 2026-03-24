@@ -82,6 +82,7 @@ public class Stock {
             int shares = Math.min(buy.getShares(), sell.getShares());
             buy.subtractShares(shares);
             sell.subtractShares(shares);
+            lastPrice = price;
 
             if (buy.getShares() == 0)  {
                 buyOrders.remove();
@@ -117,7 +118,7 @@ public class Stock {
             String bid = "";
            if (!buyOrders.isEmpty()) {
                 TradeOrder buyOrder = buyOrders.peek();
-                bid = " Bid: " + buyOrder.getPrice() + " size: " + buyOrder.getPrice();
+                bid = " Bid: " + buyOrder.getPrice() + " size: " + buyOrder.getShares();
             } else {
                 bid = " Bid: none";
             }
